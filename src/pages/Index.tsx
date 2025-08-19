@@ -152,9 +152,11 @@ const Index = () => {
                 <Button variant="ghost" className="text-black hover:text-gray-600">
                   Медицина
                 </Button>
-                <Button variant="ghost" className="text-black hover:text-gray-600">
-                  БЖД
-                </Button>
+                <a href="/chlorine-safety">
+                  <Button variant="ghost" className="text-black hover:text-gray-600">
+                    БЖД
+                  </Button>
+                </a>
                 <Button variant="ghost" className="text-black hover:text-gray-600">
                   Библиотека
                 </Button>
