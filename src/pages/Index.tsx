@@ -12,6 +12,12 @@ const Index = () => {
 
   const emergencyItems = [
     {
+      title: "Утечка хлора",
+      description: "Интерактивное обучение действиям при химической аварии",
+      urgency: "critical",
+      link: "/chlorine-safety"
+    },
+    {
       title: "Первая помощь при кровотечении",
       description: "Немедленные действия при артериальном кровотечении",
       urgency: "critical"
@@ -24,11 +30,6 @@ const Index = () => {
     {
       title: "Эвакуация при пожаре",
       description: "Маршруты эвакуации и правила поведения",
-      urgency: "high"
-    },
-    {
-      title: "Первая помощь при отравлении",
-      description: "Действия при различных видах отравлений",
       urgency: "high"
     }
   ];
@@ -99,6 +100,19 @@ const Index = () => {
       image: "/img/ebce0511-d44e-4c99-9abd-8d15573d0cde.jpg",
       rating: 4.8,
       students: 920
+    },
+    {
+      id: 7,
+      title: "Безопасность при утечке хлора",
+      description: "Интерактивное обучение: признаки, действия, симулятор, первая помощь",
+      category: "safety",
+      type: "interactive",
+      level: "beginner",
+      image: "/img/134b9d46-3c9f-4b7f-8908-0de7239fcfd1.jpg",
+      rating: 5.0,
+      students: 450,
+      link: "/chlorine-safety",
+      featured: true
     }
   ];
 
@@ -116,6 +130,7 @@ const Index = () => {
       case 'manual': return 'FileText';
       case 'practice': return 'Activity';
       case 'guide': return 'Info';
+      case 'interactive': return 'Gamepad2';
       default: return 'File';
     }
   };
@@ -189,7 +204,11 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {emergencyItems.map((item, index) => (
-              <Card key={index} className="bg-white text-black hover:shadow-lg transition-shadow cursor-pointer">
+              <Card 
+                key={index} 
+                className="bg-white text-black hover:shadow-lg transition-shadow cursor-pointer"
+                onClick={() => item.link && (window.location.href = item.link)}
+              >
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-semibold">{item.title}</CardTitle>
                 </CardHeader>
@@ -222,7 +241,13 @@ const Index = () => {
         {/* Materials Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredMaterials.map((material) => (
-            <Card key={material.id} className="hover:shadow-lg transition-shadow cursor-pointer border border-gray-200">
+            <Card 
+              key={material.id} 
+              className={`hover:shadow-lg transition-shadow cursor-pointer border ${
+                material.featured ? 'border-yellow-400 ring-2 ring-yellow-100' : 'border-gray-200'
+              }`}
+              onClick={() => material.link && (window.location.href = material.link)}
+            >
               <div className="aspect-video relative overflow-hidden rounded-t-lg">
                 <img 
                   src={material.image} 
@@ -237,8 +262,17 @@ const Index = () => {
                     {material.type === 'manual' && 'Пособие'}
                     {material.type === 'practice' && 'Практика'}
                     {material.type === 'guide' && 'Руководство'}
+                    {material.type === 'interactive' && 'Интерактив'}
                   </Badge>
                 </div>
+                {material.featured && (
+                  <div className="absolute top-3 right-3">
+                    <Badge className="bg-yellow-400 text-black">
+                      <Icon name="Star" size={12} className="mr-1" />
+                      Рекомендуем
+                    </Badge>
+                  </div>
+                )}
               </div>
               <CardHeader>
                 <div className="flex justify-between items-start">
@@ -265,8 +299,11 @@ const Index = () => {
                       <span>{material.students}</span>
                     </div>
                   </div>
-                  <Button size="sm" className="bg-black text-white hover:bg-gray-800">
-                    Открыть
+                  <Button 
+                    size="sm" 
+                    className={`${material.featured ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-black hover:bg-gray-800'} text-white`}
+                  >
+                    {material.link ? 'Изучить' : 'Открыть'}
                   </Button>
                 </div>
               </CardContent>
